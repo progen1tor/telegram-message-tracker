@@ -1,0 +1,1 @@
+CONFIG_PATH = 'tg-message-tracker/config/config.json'
