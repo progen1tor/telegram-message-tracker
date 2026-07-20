@@ -7,5 +7,5 @@ with open(CONFIG_PATH, encoding='utf-8') as conf:
 API_ID = config["api_id"]
 API_HASH = config["api_hash"]
 SESSION_NAME = config["session_name"]
-TARGET_CHAT = config["target_chat"]
+TARGET_CHAT = config["target_chats"]
 NOTIFICATION_CHAT = config["notification_chat"]
