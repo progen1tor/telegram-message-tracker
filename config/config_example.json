@@ -6,5 +6,9 @@
         "@chat_example_1",
         "@chat_example_2"
     ],
+    "keywords": [
+        "keyword_1", 
+        "keyword_2"
+    ],
     "notification_chat": "me"
 }
