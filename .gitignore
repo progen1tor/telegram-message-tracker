@@ -1,2 +1,6 @@
 config/config.json 
 *.session 
+*.session-journal
+
+src/testing.py
+src/__pycache__
