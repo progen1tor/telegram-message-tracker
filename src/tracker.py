@@ -3,6 +3,7 @@ from pyrogram import filters
 from pyrogram.types import Message 
 import config 
 from logging_config import all_messages_logger, target_messages_logger, exp_logger
+from app import app 
 
 async def message_tracker(app: pyrogram.Client, message: Message) -> None: 
     new_message = f'New message from {message.chat.title}:\n{message.text}'  
