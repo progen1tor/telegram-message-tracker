@@ -1,30 +1,35 @@
-import pyrogram
-from pyrogram import filters 
-from pyrogram.types import Message 
+from telethon import TelegramClient, events, types 
 import config 
-from logging_config import all_messages_logger, target_messages_logger, exp_logger
-from app import app 
+import logging_config as lc 
+from client import client
+from utils import kword_finder
 
-async def message_tracker(app: pyrogram.Client, message: Message) -> None: 
-    new_message = f'New message from {message.chat.title}:\n{message.text}'  
-    all_messages_logger.info(new_message)
-    
-    for word in config.KEYWORDS: 
-        if not message.text: 
-            break 
-        if word in message.text.lower():
-            chat_link = f'https://t.me/{message.chat.username}' if message.chat.username else 'Private chat'
-            dt = message.date.strftime('%d.%m.%Y %I:%M:%S %p')
-            author = f'@{message.from_user.username}' if message.from_user.username else 'Unknown message author'
+chats = []  # plug 
+
+@client.on(events.NewMessage(chats=chats))
+async def message_tracker(event: events.NewMessage.Event) -> None: 
+    msg = event.message 
+    if (text:= msg.message):  
+        source = msg.peer_id 
+        if isinstance(source, types.PeerUser):
+            source_user = await client.get_entity(source.user_id)
+        elif isinstance(source, types.PeerChannel):
+            source_user = await client.get_entity(source.channel_id)
+        source_username = source_user.username if source_user.username else 'Unknown sourse'
+        dt = msg.date.strftime('%d.%m.%Y %I:%M:%S %p')
+        
+        if (kwords:= kword_finder(config.KEYWORDS, text)): 
+            try: 
+                user_id = msg.from_id.user_id 
+                user = await client.get_entity(user_id)
+                username = user.username if user.username else 'Unknown'
+            except AttributeError:
+                username = 'Unknown'
+            data = f'=== NEW MESSAGE WITH KEYWORDS FROM @{source_username} ===\nDATE: {dt}\nusername: @{username}\ntext: {text}\nkeywords found: {', '.join(kwords)}\n'
+            lc.target_messages_logger.info(data)
             
-            data = f'Chat: {chat_link}\nDate: {dt}\nWord found: {word}\nAuthor: {author}\nMessage text: {message.text}'
-            target_messages_logger.info(data)
+            await client.send_message(config.NOTIFICATION_CHAT, data)
             
-            await app.send_message(config.NOTIFICATION_CHAT, data)  # ! notifier.py 
-            
-            
-@app.on_message(filters=filters.chat(config.TARGET_CHATS) & filters.text)
-async def message_handler(app: pyrogram.Client, message: Message) -> None: 
-    await message_tracker(app, message)
-    
-app.run()
+        else:   
+            data = f'New message from @{source_username}: {text} ({dt})'
+            lc.all_messages_logger.info(data)
