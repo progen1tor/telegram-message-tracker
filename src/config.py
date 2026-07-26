@@ -1,5 +1,5 @@
 import json 
-from constants import CONFIG_PATH
+from .constants import CONFIG_PATH
 
 with open(CONFIG_PATH, encoding='utf-8') as conf:
     config = json.load(conf)

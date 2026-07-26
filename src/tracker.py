@@ -1,8 +1,8 @@
 from telethon import TelegramClient, events, types 
 import config 
-import logging_config as lc 
-from client import client
-from utils import kword_finder, target_message_formatter
+from . import logging_config as lc 
+from .client import client
+from .utils import kword_finder, target_message_formatter
 
 
 def handlers_register(chats: list[int]):

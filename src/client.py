@@ -1,5 +1,5 @@
 from telethon import TelegramClient
-import config 
+from . import config 
 
 client = TelegramClient(
     session=config.SESSION_NAME,

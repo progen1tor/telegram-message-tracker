@@ -1,5 +1,5 @@
 import logging 
-from constants import ALL_MSG_LOG_FILEPATH, TGT_MSG_LOG_FILEPATH, EXP_LOG_FILEPATH
+from .constants import ALL_MSG_LOG_FILEPATH, TGT_MSG_LOG_FILEPATH, EXP_LOG_FILEPATH
 
 # all messages 
 all_messages_logger = logging.getLogger('all_messages')  
