@@ -12,7 +12,7 @@ def handlers_register(chats: list[int]):
         if (text:= msg.message):  
             source = msg.peer_id 
             
-            source_user = None 
+            source_username = None 
             
             if isinstance(source, types.PeerUser):
                 source_user = await client.get_entity(source.user_id)
@@ -20,9 +20,7 @@ def handlers_register(chats: list[int]):
                 source_user = await client.get_entity(source.channel_id)
             
             if source_user:
-                source_username = source_user.username or 'Unknown source'
-            else: 
-                source_username = 'Unknown source'
+                source_username = source_user.username 
                 
             dt = msg.date.strftime('%d.%m.%Y %I:%M:%S %p')
             
@@ -30,9 +28,9 @@ def handlers_register(chats: list[int]):
                 try: 
                     user_id = msg.from_id.user_id 
                     user = await client.get_entity(user_id)
-                    username = user.username or 'Unknown'
+                    username = user.username 
                 except (AttributeError, ValueError):
-                    username = 'Unknown'
+                    username = None
                 data = target_message_formatter(source_username, dt, username, text, kwords)
                 lc.target_messages_logger.info(data)
                 
