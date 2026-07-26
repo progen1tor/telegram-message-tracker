@@ -1,5 +1,5 @@
 from telethon import TelegramClient, events, types 
-import config 
+from . import config 
 from . import logging_config as lc 
 from .client import client
 from .utils import kword_finder, target_message_formatter
