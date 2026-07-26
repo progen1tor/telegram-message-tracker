@@ -11,19 +11,27 @@ def handlers_register(chats: list[int]):
         msg = event.message 
         if (text:= msg.message):  
             source = msg.peer_id 
+            
+            source_user = None 
+            
             if isinstance(source, types.PeerUser):
                 source_user = await client.get_entity(source.user_id)
             elif isinstance(source, types.PeerChannel):
                 source_user = await client.get_entity(source.channel_id)
-            source_username = source_user.username if source_user.username else 'Unknown sourse'
+            
+            if source_user:
+                source_username = source_user.username or 'Unknown source'
+            else: 
+                source_username = 'Unknown source'
+                
             dt = msg.date.strftime('%d.%m.%Y %I:%M:%S %p')
             
             if (kwords:= kword_finder(config.KEYWORDS, text)): 
                 try: 
                     user_id = msg.from_id.user_id 
                     user = await client.get_entity(user_id)
-                    username = user.username if user.username else 'Unknown'
-                except AttributeError:
+                    username = user.username or 'Unknown'
+                except (AttributeError, ValueError):
                     username = 'Unknown'
                 data = target_message_formatter(source_username, dt, username, text, kwords)
                 lc.target_messages_logger.info(data)
