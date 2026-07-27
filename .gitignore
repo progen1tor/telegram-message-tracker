@@ -4,3 +4,5 @@ config/config.json
 
 src/testing.py
 src/__pycache__
+
+logs/
