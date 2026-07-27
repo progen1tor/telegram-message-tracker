@@ -16,5 +16,7 @@ target_messages_logger.addHandler(target_messages_handler)
 # errors 
 exp_logger = logging.getLogger('tracker')  
 exp_handler = logging.FileHandler(EXP_LOG_FILEPATH, encoding='utf-8', mode='a')  
+exp_formatter = logging.Formatter('[%(asctime)s] %(levelname)s: %(message)s')
 exp_logger.setLevel(logging.ERROR)
+exp_handler.setFormatter(exp_formatter)
 exp_logger.addHandler(exp_handler)
