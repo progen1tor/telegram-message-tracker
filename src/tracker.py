@@ -1,5 +1,5 @@
-from telethon import events, types, errors
-import asyncio 
+from telethon import events, types
+from zoneinfo import ZoneInfo
 from . import config 
 from . import logging_config as lc 
 from .client import client
@@ -31,8 +31,9 @@ def handlers_register(chats: list[int]):
                 
                 if source_user:
                     source_username = source_user.username 
-                    
-                dt = msg.date.strftime('%d.%m.%Y %I:%M:%S %p')
+                
+                tz = ZoneInfo(config.TIMEZONE)
+                dt = msg.date.astimezone(tz).strftime('%d.%m.%Y %I:%M:%S %p')
                 
                 if (kwords:= kword_finder(config.KEYWORDS, text)): 
                     try: 
