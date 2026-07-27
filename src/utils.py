@@ -1,12 +1,16 @@
 from telethon import TelegramClient
+from .logging_config import exp_logger 
 
 
 async def chat_id_getter(client: TelegramClient, chat_list: list[str]) -> list[int]:
     ids = []
     
     for chat in chat_list:
-        chat_entity = await client.get_entity(chat)
-        ids.append(chat_entity.id)
+        try: 
+            chat_entity = await client.get_entity(chat)
+            ids.append(chat_entity.id)
+        except Exception as exp:
+            exp_logger.error(f'[{chat}] ({type(exp).__name__}) {exp}')
     
     return ids 
 
