@@ -69,7 +69,7 @@ cp config/config_example.json config/config.json
 - api_id — Ваш Telegram API ID  
 - api_hash — Ваш Telegram API Hash  
 - session_name — имя файла сессии Telegram (может быть любым)  
-- timezone - Ваш часовой пояс для записи в log-файлы   
+- timezone — Ваш часовой пояс для записи в log-файлы   
 - target_chats — список чатов, которые Вам нужно отслеживать   
 - keywords — ключевые слова для поиска   
 - notification_chat — чат для отправки уведомлений  
