@@ -49,7 +49,7 @@ telegram-message-tracker/
 
 ## Запуск 
 
-### 1. Клонирования репозитория: 
+### 1. Клонирование репозитория: 
 ```bash
 git clone git@github.com:progen1tor/telegram-message-tracker.git
 cd telegram-message-tracker
