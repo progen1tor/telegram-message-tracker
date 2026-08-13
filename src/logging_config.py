@@ -1,5 +1,8 @@
 import logging 
+import os 
 from .constants import ALL_MSG_LOG_FILEPATH, TGT_MSG_LOG_FILEPATH, EXP_LOG_FILEPATH
+
+os.makedirs('logs', exist_ok=True)
 
 # all messages 
 all_messages_logger = logging.getLogger('all_messages')  
@@ -16,7 +19,7 @@ target_messages_logger.addHandler(target_messages_handler)
 # errors 
 exp_logger = logging.getLogger('tracker')  
 exp_handler = logging.FileHandler(EXP_LOG_FILEPATH, encoding='utf-8', mode='a')  
-exp_formatter = logging.Formatter('[%(asctime)s] %(levelname)s: %(message)s')
+exp_formatter = logging.Formatter('[%(asctime)s] %(levelname)s: %(message)s', datefmt='%Y-%m-d %H:%M:%S')
 exp_logger.setLevel(logging.ERROR)
 exp_handler.setFormatter(exp_formatter)
 exp_logger.addHandler(exp_handler)
